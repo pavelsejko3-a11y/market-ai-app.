@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#080d18">
+<meta name="description" content="MARKET AI – přehled kryptoměn, akcií a tržních signálů.">
+<link rel="manifest" href="manifest.webmanifest">
+<title>MARKET AI</title>
+<style>
+:root{color-scheme:dark;--bg:#080d18;--panel:#111a2a;--panel2:#172338;--line:#243149;--muted:#91a0b8;--text:#f3f6fc;--green:#25d695;--red:#ff647c;--blue:#78a9ff}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 20% -10%,#1b3151 0,transparent 38%),var(--bg);color:var(--text);font:15px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;padding-bottom:calc(78px + env(safe-area-inset-bottom))}
+header{padding:22px 18px 14px;display:flex;justify-content:space-between;align-items:center;max-width:900px;margin:auto}
+.brand{font-weight:900;letter-spacing:1.5px;font-size:20px}.brand span{color:var(--green)}.sub{font-size:10px;color:var(--muted);letter-spacing:2px;margin-top:4px}
+.pill{border:1px solid #285a4c;color:var(--green);border-radius:20px;padding:6px 10px;font-size:11px}
+main{max-width:900px;margin:auto;padding:0 16px}.hero{padding:18px 2px 16px}.eyebrow{color:var(--green);font-size:11px;letter-spacing:1.8px;font-weight:700}.hero h1{font-size:30px;line-height:1.08;margin:8px 0}.hero p{color:var(--muted);margin:8px 0 0;line-height:1.5}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.card{background:linear-gradient(145deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:18px;padding:15px;min-width:0}.label{color:var(--muted);font-size:12px}.big{font-size:23px;font-weight:800;margin:7px 0 3px}.change{font-size:12px;font-weight:700}.up{color:var(--green)}.down{color:var(--red)}.muted{color:var(--muted)}
+.section{display:flex;justify-content:space-between;align-items:center;margin:25px 2px 12px}.section h2{font-size:17px;margin:0}.smallbtn,.tab,.filter{border:1px solid var(--line);background:var(--panel);color:var(--text);border-radius:10px;padding:9px 12px;font-size:12px}
+.filters{display:flex;gap:7px;overflow:auto;padding-bottom:8px}.filter.active{border-color:#278c6d;color:var(--green);background:#10271f}
+.list{display:grid;gap:8px}.asset{display:grid;grid-template-columns:1fr auto;align-items:center;gap:8px;background:var(--panel);border:1px solid var(--line);padding:13px;border-radius:14px}.coin{display:flex;align-items:center;gap:10px;min-width:0}.coin img{width:30px;height:30px;border-radius:50%}.symbol{font-weight:750}.name{font-size:11px;color:var(--muted);margin-top:3px}.right{text-align:right}.price{font-weight:750}.spark{font-size:11px;margin-top:4px}
+.notice{border:1px solid #6a5730;background:#241e12;color:#e9d49b;border-radius:13px;padding:12px;font-size:12px;line-height:1.5;margin-top:14px}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:15px}.signal{display:flex;gap:10px;align-items:flex-start;padding:11px 0;border-bottom:1px solid var(--line)}.signal:last-child{border:0;padding-bottom:0}.dot{width:8px;height:8px;background:var(--blue);border-radius:50%;margin-top:5px;flex:none}
+canvas{width:100%;height:155px;display:block}.chart-meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+footer{position:fixed;bottom:0;left:0;right:0;background:#0b1220ee;backdrop-filter:blur(16px);border-top:1px solid var(--line);padding:9px 10px calc(9px + env(safe-area-inset-bottom));display:flex;justify-content:center;z-index:5}.nav{display:flex;max-width:600px;width:100%;justify-content:space-around}.nav button{background:none;border:0;color:var(--muted);font-size:10px;padding:5px}.nav button b{display:block;font-size:19px;margin-bottom:3px;font-weight:400}.nav button.active{color:var(--green)}
+.view{display:none}.view.active{display:block}.empty{color:var(--muted);text-align:center;padding:24px;font-size:13px}
+input{background:#0b1321;color:var(--text);border:1px solid var(--line);border-radius:10px;padding:11px;width:100%;font-size:14px}
+.row{display:flex;gap:8px}.row>*{flex:1}.disclaimer{font-size:11px;color:var(--muted);line-height:1.5;margin:22px 2px}
+@media(min-width:650px){.grid{grid-template-columns:repeat(4,minmax(0,1fr))}.hero h1{font-size:38px}.columns{display:grid;grid-template-columns:1.2fr .8fr;gap:14px}}
+</style>
+</head>
+<body>
+<header><div><div class="brand">MARKET <span>AI</span></div><div class="sub">SMART MARKET INTELLIGENCE</div></div><div class="pill">BETA · FREE</div></header>
+<main>
+<section class="view active" id="home">
+ <div class="hero"><div class="eyebrow">VÍTEJ NA TRHU</div><h1>Trhy pod kontrolou.<br><span style="color:var(--green)">Rozhodnutí s přehledem.</span></h1><p>Sleduj kryptoměny, akcie a tržní trendy na jednom místě.</p></div>
+ <div class="grid">
+  <div class="card"><div class="label">Bitcoin · BTC</div><div class="big" id="btcPrice">Načítám…</div><div class="change" id="btcChange">—</div></div>
+  <div class="card"><div class="label">Ethereum · ETH</div><div class="big" id="ethPrice">Načítám…</div><div class="change" id="ethChange">—</div></div>
+  <div class="card"><div class="label">Solana · SOL</div><div class="big" id="solPrice">Načítám…</div><div class="change" id="solChange">—</div></div>
+  <div class="card"><div class="label">Data aktualizována</div><div class="big" style="font-size:17px" id="updated">—</div><div class="change muted">Krypto · veřejné API</div></div>
+ </div>
+ <div class="columns">
+  <div><div class="section"><h2>Tržní přehled</h2><button class="smallbtn" onclick="refreshData()">↻ Obnovit</button></div>
+   <div class="panel"><div class="chart-meta"><div><div class="label">Bitcoin · 24h</div><div class="big" id="chartPrice">—</div></div><span class="pill">BTC / USD</span></div><canvas id="chart" width="700" height="240"></canvas><div class="label">Graf zobrazuje orientační denní změnu z dostupných tržních dat.</div></div>
+  </div>
+  <div><div class="section"><h2>AI tržní radar</h2></div><div class="panel"><div class="signal"><span class="dot"></span><div><b>Trend a momentum</b><div class="label">V další verzi přidáme RSI, MACD a klouzavé průměry.</div></div></div><div class="signal"><span class="dot"></span><div><b>Upozornění na pohyb</b><div class="label">Nastavení cenových upozornění je připravené k rozšíření.</div></div></div><div class="signal"><span class="dot"></span><div><b>AI scénáře</b><div class="label">Predikce budou doplněné až po napojení ověřeného analytického backendu.</div></div></div></div></div>
+ </div>
+ <div class="notice" id="status">Načítám aktuální data z veřejného zdroje…</div>
+</section>
+<section class="view" id="markets">
+ <div class="section"><h2>Trhy</h2><button class="smallbtn" onclick="refreshData()">↻ Obnovit</button></div>
+ <div class="filters"><button class="filter active" onclick="setFilter('all',this)">Vše</button><button class="filter" onclick="setFilter('crypto',this)">Krypto</button><button class="filter" onclick="setFilter('stocks',this)">Akcie</button></div>
+ <div class="list" id="marketList"><div class="empty">Načítám tržní data…</div></div>
+ <div class="notice">Kryptoměny načítáme z CoinGecko. Akciové kotace zatím nejsou připojené – pro veřejné použití potřebujeme poskytovatele s licencí pro zobrazování dat.</div>
+</section>
+<section class="view" id="watchlist">
+ <div class="section"><h2>Můj seznam</h2><span class="pill">Toto zařízení</span></div>
+ <p class="muted" style="font-size:13px;line-height:1.5">Přidej si aktiva, která chceš sledovat. Seznam se zatím ukládá pouze v tomto prohlížeči.</p>
+ <div class="row"><input id="watchInput" placeholder="Např. BTC, ETH nebo SOL"><button class="smallbtn" onclick="addWatch()">Přidat</button></div>
+ <div class="list" id="watchList" style="margin-top:12px"></div>
+ <div class="notice">Dobrovolné účty a synchronizace mezi zařízeními budou součástí další verze.</div>
+</section>
+<section class="view" id="signals">
+ <div class="section"><h2>Signály a analýza</h2><span class="pill">Připravujeme</span></div>
+ <div class="panel"><div class="signal"><span class="dot"></span><div><b>Technické indikátory</b><div class="label">RSI, MACD, EMA 20/50/200 a objemy obchodů.</div></div></div><div class="signal"><span class="dot"></span><div><b>Scénáře vývoje</b><div class="label">Býčí, neutrální a medvědí scénář včetně míry nejistoty.</div></div></div><div class="signal"><span class="dot"></span><div><b>Rizikové upozornění</b><div class="label">Volatilita, prudké pohyby a důležité cenové úrovně.</div></div></div></div>
+ <p class="disclaimer">Signály nejsou investičním doporučením. Každý odhad bude obsahovat vysvětlení, čas aktualizace a upozornění na riziko.</p>
+</section>
+<section class="view" id="profile">
+ <div class="section"><h2>Účet a nastavení</h2></div>
+ <div class="panel"><b>MARKET AI · Beta</b><p class="label" style="line-height:1.6">Aktuálně můžeš aplikaci používat bez registrace. Vlastní účet, synchronizace watchlistu a placené funkce přidáme po zprovoznění zabezpečeného serveru.</p><button class="smallbtn" onclick="alert('Registrace bude součástí další verze.')">Přihlášení / registrace – brzy</button></div>
+ <div class="section"><h2>O aplikaci</h2></div><div class="panel label" style="line-height:1.7">MARKET AI je nezávislý informační nástroj. Neprovádí obchody, nedrží peníze a negarantuje budoucí vývoj cen. Tržní data mohou být zpožděná nebo dočasně nedostupná.</div>
+</section>
+<p class="disclaimer">Informace mají pouze vzdělávací a informační charakter, nejde o investiční poradenství. Investování může vést ke ztrátě části nebo celého kapitálu.</p>
+</main>
+<footer><div class="nav">
+ <button class="active" onclick="showView('home',this)"><b>⌂</b>Přehled</button>
+ <button onclick="showView('markets',this)"><b>▥</b>Trhy</button>
+ <button onclick="showView('watchlist',this)"><b>☆</b>Seznam</button>
+ <button onclick="showView('signals',this)"><b>⌁</b>Signály</button>
+ <button onclick="showView('profile',this)"><b>☻</b>Účet</button>
+</div></footer>
+<script>
+const ids=['bitcoin','ethereum','solana','binancecoin','ripple','dogecoin','cardano','avalanche-2'];
+const names={'bitcoin':['Bitcoin','BTC'],'ethereum':['Ethereum','ETH'],'solana':['Solana','SOL'],'binancecoin':['BNB','BNB'],'ripple':['XRP','XRP'],'dogecoin':['Dogecoin','DOGE'],'cardano':['Cardano','ADA'],'avalanche-2':['Avalanche','AVAX']};
+let marketData=[],filter='all';
+const fmt=n=>n==null?'—':new Intl.NumberFormat('cs-CZ',{style:'currency',currency:'USD',maximumFractionDigits:n<1?5:2}).format(n);
+const pct=n=>(n>=0?'+':'')+Number(n).toFixed(2)+'%';
+function showView(id,btn){document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));document.getElementById(id).classList.add('active');document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));btn.classList.add('active');}
+function setFilter(f,btn){filter=f;document.querySelectorAll('.filter').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderMarkets();}
+async function refreshData(){
+ const status=document.getElementById('status');status.textContent='Aktualizuji data…';
+ try{
+  const r=await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids='+ids.join(',')+'&order=market_cap_desc&per_page=8&page=1&sparkline=true&price_change_percentage=24h');
+  if(!r.ok)throw new Error('Datový zdroj odpověděl '+r.status);
+  marketData=await r.json();
+  const by=Object.fromEntries(marketData.map(x=>[x.id,x]));
+  [['bitcoin','btc'],['ethereum','eth'],['solana','sol']].forEach(([id,key])=>{const x=by[id];if(x){document.getElementById(key+'Price').textContent=fmt(x.current_price);const el=document.getElementById(key+'Change');el.textContent=pct(x.price_change_percentage_24h);el.className='change '+(x.price_change_percentage_24h>=0?'up':'down');}});
+  document.getElementById('updated').textContent=new Date().toLocaleTimeString('cs-CZ',{hour:'2-digit',minute:'2-digit'});
+  document.getElementById('chartPrice').textContent=by.bitcoin?fmt(by.bitcoin.current_price):'—';
+  drawChart(by.bitcoin?.sparkline_in_7d?.price||[]);
+  renderMarkets();renderWatch();
+  status.textContent='Krypto data načtena. Zdroj: CoinGecko · '+new Date().toLocaleString('cs-CZ')+'.';
+ }catch(e){status.textContent='Data se nepodařilo načíst ('+e.message+'). Zkus Obnovit později. API může mít limit požadavků nebo blokovat přístup.';document.getElementById('marketList').innerHTML='<div class="empty">Tržní data jsou momentálně nedostupná.</div>';}
+}
+function renderMarkets(){const list=document.getElementById('marketList');const rows=marketData.filter(x=>filter==='all'||filter==='crypto');list.innerHTML=rows.map(x=>`<div class="asset"><div class="coin"><img src="${x.image}" alt=""><div><div class="symbol">${names[x.id]?.[1]||x.symbol.toUpperCase()}</div><div class="name">${names[x.id]?.[0]||x.name}</div></div></div><div class="right"><div class="price">${fmt(x.current_price)}</div><div class="spark ${(x.price_change_percentage_24h||0)>=0?'up':'down'}">${pct(x.price_change_percentage_24h||0)}</div></div></div>`).join('')+(filter==='stocks'?'<div class="empty">Akciová data budou připojena v další fázi.</div>':'');}
+function drawChart(vals){const c=document.getElementById('chart'),ctx=c.getContext('2d');ctx.clearRect(0,0,c.width,c.height);if(!vals.length)return;let min=Math.min(...vals),max=Math.max(...vals),range=max-min||1;ctx.strokeStyle='#25d695';ctx.lineWidth=3;ctx.beginPath();vals.forEach((v,i)=>{let x=i/(vals.length-1)*c.width,y=c.height-15-(v-min)/range*(c.height-30);i?ctx.lineTo(x,y):ctx.moveTo(x,y)});ctx.stroke();ctx.strokeStyle='#25344b';ctx.lineWidth=1;for(let y=50;y<c.height;y+=60){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(c.width,y);ctx.stroke();}}
+function getWatch(){try{return JSON.parse(localStorage.getItem('mai_watch')||'["bitcoin","ethereum","solana"]')}catch{return ['bitcoin','ethereum','solana']}}
+function renderWatch(){const w=getWatch(),el=document.getElementById('watchList');el.innerHTML=w.map(id=>{let x=marketData.find(a=>a.id===id);return `<div class="asset"><div><div class="symbol">${names[id]?.[1]||id.toUpperCase()}</div><div class="name">${names[id]?.[0]||id}</div></div><div class="right"><div class="price">${x?fmt(x.current_price):'—'}</div><button class="smallbtn" onclick="removeWatch('${id}')">Odebrat</button></div></div>`}).join('')||'<div class="empty">Zatím nemáš žádná aktiva.</div>'}
+function addWatch(){let raw=document.getElementById('watchInput').value.trim().toLowerCase();let map={btc:'bitcoin',bitcoin:'bitcoin',eth:'ethereum',ethereum:'ethereum',sol:'solana',solana:'solana',bnb:'binancecoin',xrp:'ripple',doge:'dogecoin',ada:'cardano',avax:'avalanche-2'};let id=map[raw];if(!id){alert('V této verzi lze přidat BTC, ETH, SOL, BNB, XRP, DOGE, ADA nebo AVAX.');return}let w=getWatch();if(!w.includes(id))w.push(id);localStorage.setItem('mai_watch',JSON.stringify(w));document.getElementById('watchInput').value='';renderWatch()}
+function removeWatch(id){localStorage.setItem('mai_watch',JSON.stringify(getWatch().filter(x=>x!==id)));renderWatch()}
+if('serviceWorker'in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js').catch(()=>{});
+refreshData();setInterval(refreshData,120000);
+</script>
+</body></html>
